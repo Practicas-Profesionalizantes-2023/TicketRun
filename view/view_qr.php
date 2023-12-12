@@ -50,7 +50,7 @@ if(isset($_POST["reserve_order"]))
                         }?>
                 <li><a href="record.php">Mis reservas</a></li>
                 <hr class="hr">
-                <li><a href="#">Cerrar Sesion</a></li>
+                <li><a href="../controller/logout.php">Cerrar Sesion</a></li>
             </ul>
         </div>
         </div>
@@ -59,7 +59,7 @@ if(isset($_POST["reserve_order"]))
 <div class="qr-container">
     <h1>Deberá enseñar este QR en el mostrador.</h1>
     <img src="../controller/generate_qr.php" id="qr">
-    <button onclick="downQR()" >descargar QR</button>
+    <button onclick="downQR()" >Descargar QR</button>
     <br><br>
 </div>
 

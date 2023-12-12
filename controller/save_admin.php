@@ -25,6 +25,6 @@ if ($logged_admin) {
     header("location: ../view/main_supplier_sector.php");
 
 } else {
-    header("location: ../view/login.php?error=1");
+    header("location: ../view/admin.php?error=1");
 }
 ?>

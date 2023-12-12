@@ -24,7 +24,7 @@ if(!empty($name) && !empty($email) && !empty($comment) && !empty($affair))
     $mail->Host       = 'smtp.gmail.com';                    
     $mail->SMTPAuth   = true;                                   
     $mail->Username   = 'Playtickets1@gmail.com';                     
-    $mail->Password   = 'gxekfdrsttscsikn';                               
+    $mail->Password   = 'utlg jlpc fqzd xrot';                               
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
     $mail->Port       = 465;                                    
 
@@ -35,16 +35,43 @@ if(!empty($name) && !empty($email) && !empty($comment) && !empty($affair))
     $mail->isHTML(true);
     $mail->CharSet='UTF-8';                      
     $mail->Subject = $affair;
-    $mail->Body = 
-    '<p>
-    El usuario: '.$name.'
-    <br>
-    <br>
-    Con el mail: '.$email.'
-    <br>
-    <br>
-    Mando el siguiente comentario:<br> '.$comment.'
-    </p>';
+    $mail->Body = '
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+            }
+            .container {
+                background-color: #ffffff;
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h2 {
+                color: #333;
+            }
+            p {
+                color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Detalles del Usuario:</h2>
+            <p>
+                <strong>Nombre de Usuario:</strong> ' . $name . '<br>
+                <strong>Email:</strong> ' . $email . '<br>
+            </p>
+            <h2>Consulta:</h2>
+            <p>' . $comment . '</p>
+        </div>
+    </body>
+    </html>';
+
 
     $mail->send();
     return true;

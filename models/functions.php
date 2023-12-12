@@ -417,5 +417,52 @@ function getCurrentPicture($id_show) {
         return null;
     }
 }
-    
+
+function getEntradasVendidas($id_datetime)
+{
+    $db = database();
+    $sql = "SELECT COUNT(*) as count FROM tickets WHERE datetime_hour = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$id_datetime]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $count = $result['count'];
+    return $count;
+}
+
+
+function getShowSalesCount($id_show) {
+    $db = database();
+    $sql = "SELECT COUNT(*) as sales_count FROM tickets WHERE id_show = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$id_show]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return ($result) ? $result['sales_count'] : 0;
+}
+
+function GetDestination() {
+    $destination = array();
+    $db = database();
+    $sql = "SELECT t.id_ticket, s.show_name, sd.date_show, sd.time_show, u.user_name, u.last_name, u.email
+            FROM tickets t
+            JOIN shows_dates sd ON t.datetime_hour = sd.id_datetime
+            JOIN users u ON t.id_user = u.id_user
+            JOIN shows s ON t.id_show = s.id_show
+            WHERE sd.date_show = DATE_ADD(CURDATE(), INTERVAL 1 DAY)";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $destination[] = array(
+            'id_ticket' => $row['id_ticket'],
+            'show_name' => $row['show_name'],
+            'time_show' => $row['time_show'],
+            'date_show' => $row['date_show'],
+            'user_name' => $row['user_name'],
+            'last_name' => $row['last_name'],
+            'email' => $row['email']
+        );
+    }
+    return $destination;
+}
 ?>

@@ -42,12 +42,15 @@ exit;*/
             </ul>
         </div>
     </div>
-</header>
+ </header><br><br>
 
-    <main>
+ <main>
         <img class="img_tick" src="../assets/img/vecteezy_tickets_1189271.png" alt="">
-     <p class="centered-bold">¡Reserva Confirmada!</p>
-    </main> 
+        <br><br><br><br><br><br><br>
+        <p class="centered-bold">¡Reserva Confirmada!</p>
+    </main>
+
+   
   </div>    
   <footer>
     <div class="footer-logo"></div>

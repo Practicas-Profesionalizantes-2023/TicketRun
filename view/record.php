@@ -5,7 +5,7 @@ $user = $_SESSION["id_user"];
 $reservasArray = ReservationHistory($user);
 $get_show = getShow();
 $get_user = getUser();
-$date_show = getShowDatetimeForId($_SESSION["time"]);
+$date_show = getShowDatetime();
 ?>
 
 <!DOCTYPE html>
@@ -32,12 +32,12 @@ $date_show = getShowDatetimeForId($_SESSION["time"]);
                         <li>Hola <?php echo $_SESSION["name"]?>!</li>
                         <li><a href="record.php">Mis reservas</a></li>
                         <hr class="hr">
-                        <li><a href="#">Cerrar Sesion</a></li>
+                        <li><a href="../controller/logout.php">Cerrar Sesion</a></li>
                     </ul>
                 </div>
             </div>
         </header>
-        <h2 class="title-with-logo">Historial de Reservas</h2>
+        <h2 class="title-with-logo">Mis Reservas</h2>
 
         <?php
 if (empty($reservasArray)) {
@@ -53,24 +53,17 @@ if (empty($reservasArray)) {
     echo '<th>Show</th>';
     echo '<th>Código QR</th>';
     echo '<th>Asientos</th>';
-    
     echo '</tr></thead>';
     echo '<tbody>';
-
     $prevTicketID = null;
     $seatingArr = array();
-
     foreach ($reservasArray as $reservation) {
         if ($reservation['reserve_order'] !== $prevTicketID) {
-           
             if (!empty($seatingArr)) {
                 echo '<td>' . implode(', ', $seatingArr) . '</td>';
             } 
-
-        
             echo '<td></td>';
             echo '</tr>';
-
             echo '<tr>';
             foreach ($get_user as $nameuser) {
                 if ($reservation['id_user'] === $nameuser->id_user) {
@@ -78,23 +71,28 @@ if (empty($reservasArray)) {
                     break;
                 }
             }
-
             echo '<td>' . $reservation['reserve_order'] . '</td>'; // Número de orden
-
             echo '<td>';
-            if ($date_show) {
-                $datetime = DateTime::createFromFormat('Y-m-d', $date_show->date_show);
-                $formatted_date_show = $datetime->format('d/m/Y') . ' ' . $date_show->time_show;
+            foreach ($date_show as $date_show_get) {
+                if ($reservation['id_show'] === $date_show_get->id_show) {
+                    if($reservation['datetime_hour'] === $date_show_get->id_datetime)
+                    {
+                        $datetime = DateTime::createFromFormat('Y-m-d', $date_show_get->date_show);
+                $formatted_date_show = $datetime->format('d/m/Y') . ' ' . $date_show_get->time_show;
                 echo $formatted_date_show; // Mostrar fecha y hora
+                break;
+                    }
             }
+            }
+            
             echo '</td>';
             echo '<td>';
             foreach ($get_show as $show)
              { if ($reservation['id_show'] === $show->id_show) 
-                { echo $show->show_name; // Mostrar el nombre del espectáculo  
+                {
+                    echo $show->show_name; // Mostrar el nombre del espectáculo
                 } } 
             echo '</td>';
-              
             echo '<td>';
             if($selectedOrder<$reservasArray) //QR
             {
@@ -102,39 +100,27 @@ if (empty($reservasArray)) {
             echo '<input type="hidden" name="reserve_order" value="' . $reservation['reserve_order'] . '">';
             echo '<input type="submit" value="Ver QR">';
             echo '</form>';
-
             $selectedOrder++;
             }
             echo '</td>';
-
-           
-
             $prevTicketID = $reservation['reserve_order'];  // Actualizar el ID de reserva anterior
             $seatingArr = array();  // Reinicia el array de asientos para la siguiente reserva
         }
-
         // Si el ID de la reserva es el mismo, agregar los asientos al array
         $seatingArr[] = $reservation['seating'];
     }
-
     // Muestra ascientos de la nueva reserva
     if (!empty($seatingArr)) {
         echo '<td>' . implode(', ', $seatingArr) . '</td>';
     } else {
         echo '<td>No hay asientos</td>';
     }
-
     echo '<td></td>';
     echo '</tr>';
-
     echo '</tbody></table>';
 }
 ?>
-
-            
-
     </div>
-
     <footer>
         <div class="footer-logo"></div>
         <div class="footer-content">
@@ -148,7 +134,6 @@ if (empty($reservasArray)) {
             </div>
         </div>
     </footer>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const accordion = document.querySelector(".accordion");

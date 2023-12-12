@@ -13,6 +13,7 @@ $get_datetime_show=getShowDatetime();
     <link rel="icon" type="img/logo" href="../assets/img/logo.png"><!--Icono en la pestaña-->
     <link rel="stylesheet" href="../assets/css/barnavfooter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--Icono de menu-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>PlayTickets</title>
 </head>
 <body>
@@ -51,6 +52,7 @@ $get_datetime_show=getShowDatetime();
                         <th>Editar</th>
                         <th>Estado</th>
                         <th>Eliminar</th>
+                        <th>Ventas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +64,10 @@ $get_datetime_show=getShowDatetime();
                         <tr>
                             <td><?php echo date('d/m/Y', strtotime($datetime_show->date_show)); ?></td>
                             <td><?php echo $datetime_show->time_show; ?></td>
+                            
+
                             <td><a class="btn btn-warning" href="edit_form_show_datetime.php?id_datetime=<?php echo $datetime_show->id_datetime?>">EDITAR</a></td>
+                            
                             <td>
                                  <?php if ($datetime_show->datetime_state == 1) { ?>
                                     <a class="btn btn-primary" href="warning_inactive_function.php?id_datetime=<?php echo $datetime_show->id_datetime ?>">ACTIVO</a>
@@ -71,6 +76,51 @@ $get_datetime_show=getShowDatetime();
                                 <?php } ?>
                             </td>
                             <td><a class="btn btn-danger" href="warning_delete_datetime.php?id_datetime=<?php echo $datetime_show->id_datetime ?>">ELIMINAR</a></td>
+                            <td>
+    <canvas id="chart_<?php echo $datetime_show->id_datetime; ?>"></canvas>
+    <script>
+        var ctx_<?php echo $datetime_show->id_datetime; ?> = document.getElementById('chart_<?php echo $datetime_show->id_datetime; ?>').getContext('2d');
+        var chart_<?php echo $datetime_show->id_datetime; ?> = new Chart(ctx_<?php echo $datetime_show->id_datetime; ?>, {
+            type: 'bar',
+            data: {
+                labels: ['Entradas Vendidas'],
+                datasets: [{
+                    label: '',
+                    data: [<?php echo getEntradasVendidas($datetime_show->id_datetime); ?>],
+                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: function(value, context) {
+                            return value;
+                        }
+                    }
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    datalabels: {
+                        color: 'black',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                responsive: true, // Hace que el gráfico sea responsive
+                maintainAspectRatio: false, // Evita que el gráfico mantenga su relación de aspecto
+                aspectRatio: 2, // Ajusta la relación de aspecto según tus necesidades
+            }
+        });
+    </script>
+</td>
+
                         </tr>
                     <?php }
                         }

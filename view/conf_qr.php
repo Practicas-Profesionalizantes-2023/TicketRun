@@ -31,7 +31,7 @@ if (!empty($tickets)) {
         <?php
         if ($order_state == 0) {
             echo '<h1>Reserva no utilizada.</h1>';
-            echo '<a class="button confirm-button" href="http://192.168.1.22:8080/TicketRun/controller/conf_reserve.php?id='.$id_order.'">Confirmar Reserva</a>';
+            echo '<a class="button confirm-button" href="http://192.168.81.171:8080/TicketRun/controller/conf_reserve.php?id='.$id_order.'">Confirmar Reserva</a>';
         } elseif ($order_state == 1) {
             echo '<h1 class="error-message">La reserva ya ha sido utilizada.</h1>';
         }

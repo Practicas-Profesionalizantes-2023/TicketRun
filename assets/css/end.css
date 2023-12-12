@@ -1,19 +1,23 @@
-.centered-bold {
-    font-weight: bold;
-    display: flex;
-    justify-content: center;     
-    align-items: center;     
-    height: 78vh;
-    margin: 0;
-    font-size: 25px;
 
-  }
-  .img_tick
-  { 
-    height: 200px;
-    width: 200px;
-    position: absolute; /* Posiciona la imagen de forma absoluta dentro del contenedor */
-    top: 100px; /* La posiciona en la parte superior */
-    left: 50%; /* La posiciona en el centro horizontalmente */
-    transform: translateX(-50%); /* Corrige la posición horizontal para centrarla */
+.centered-bold {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48vh;
+  margin: 0;
+  font-size: 25px;
+  margin-bottom: 20px; /* Agrega margen inferior para separar el párrafo de la imagen */
 }
+
+
+.img_tick {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 25vh; /* Ajusta la posición vertical, aumenta el valor para bajar la imagen más abajo */
+
+}
+
