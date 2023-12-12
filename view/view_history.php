@@ -1,18 +1,14 @@
 <?php
 include_once "../models/functions.php";
-
 $history = GeneralHistory();
 $get_show = getShow();
-$date_show = getShowDatetimeForId($_SESSION["time"]);
-
-
+$date_show = getShowDatetime();
 if (!isset($_GET["search"]) || empty($_GET["search"])) {
     $get_user = getUser();
 } else {
     $search_term = $_GET["search"];
     $get_user = searchUser($search_term);  // Llamada a la función searchUser con el término de búsqueda
 }
-
 function getUserName($userId, $users) {
     foreach ($users as $user) {
         if ($user->id_user === $userId) {
@@ -30,7 +26,6 @@ function getUserLastName($userId, $users) {
     }
     return '';
 }
-
 function getShowName($showId, $shows) {
     foreach ($shows as $show) {
         if ($show->id_show === $showId) {
@@ -40,7 +35,6 @@ function getShowName($showId, $shows) {
     return '';
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -105,7 +99,6 @@ foreach ($history as $historys)
     $userName = getUserName($historys->id_user, $get_user);
     $userLastName = getUserLastName($historys->id_user, $get_user);
     $fullName = $userName . ' ' . $userLastName;
-
     if (empty($search_term) || stripos($fullName, $search_term) !== false) {
         if ($historys->reserve_order !== $prevOrder) {
             ?>
@@ -116,21 +109,23 @@ foreach ($history as $historys)
                 <td><?php echo implode(', ', array_column(array_filter($history, function($item) use ($historys) {
                     return $item->reserve_order === $historys->reserve_order;
                 }), 'seating')); ?></td>
-                <td><?php echo date('d/m/Y H:i', strtotime(getShowDatetimeForId($_SESSION["time"]))); ?></td>
+                <td><?php 
+                foreach ($date_show as $date_show_get) 
+                if ($historys->id_show === $date_show_get->id_show) {
+                    if($historys->datetime_hour === $date_show_get->id_datetime)
+                    {
+                        $datetime = DateTime::createFromFormat('Y-m-d', $date_show_get->date_show);
+                        $formatted_date_show = $datetime->format('d/m/Y') . ' ' . $date_show_get->time_show;
+                        echo $formatted_date_show; // Mostrar fecha y hora
+                        break;
+                    }
+                }
+            } ?></td>
             </tr>
             <?php  
         }
-
         $prevOrder = $historys->reserve_order; // Actualizar el número de orden anterior
-    }
-} 
-?>
-
-
-
-
-                
-
+    } ?>
                 </tbody>
             </table>
         </div>

@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $mail->Host       = 'smtp.gmail.com';                     
     $mail->SMTPAuth   = true;                                   
     $mail->Username   = 'PlayTickets1@gmail.com';               
-    $mail->Password   = 'gxekfdrsttscsikn';                     
+    $mail->Password   = 'utlg jlpc fqzd xrot';                     
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         
     $mail->Port       = 587;                                    
 

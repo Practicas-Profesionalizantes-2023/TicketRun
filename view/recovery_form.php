@@ -22,8 +22,8 @@ session_start();
                 <div class="panel">
                     <ul>
                         <li><a href="../index.php">Cartelera</a></li>
-                        <li><a href="../view/register.php">Registrarse</a></li>
-                        <li><a href="../view/contact_page.php">Contacto</a></li>
+                        <li><a href="register.php">Registrarse</a></li>
+                        <li><a href="contact_page.php">Contacto</a></li>
                     </ul>
                 </div>
             </div>

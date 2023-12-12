@@ -22,6 +22,7 @@ $get_gender=getShowDetallGender();
     <link rel="stylesheet" href="../assets/css/barnavfooter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--Icono de menu-->
     <title>PlayTickets</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div class="main-content">
@@ -63,6 +64,7 @@ $get_gender=getShowDetallGender();
                         <th>Fechas</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
+                        <th>Ventas Generales</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,6 +73,7 @@ $get_gender=getShowDetallGender();
                         <tr>
                             <td><?php echo $show->show_name ?></td>
                             <td><textarea name="show_description" id="show_description" cols="10" rows="6"><?php echo $show->show_description ?></textarea></td>
+                            
                             <td>
                                 <?php
                                 $opcion_gender = $show->id_gender;
@@ -96,7 +99,36 @@ $get_gender=getShowDetallGender();
                             </td>
                             <td><a class="btn btn-success mb-2" href="datetime_function.php?id_show=<?php echo $show->id_show?>">FECHAS</a></td>
                             <td><a class="btn btn-warning" href="edit_form_show.php?id_show=<?php echo $show->id_show?>">EDITAR</a></td>
-                            <td><a class="btn btn-danger" href="warning_delete.php?id_show=<?php echo $show->id_show?>">ELIMINAR</a></td>  
+                            <td><a class="btn btn-danger" href="warning_delete.php?id_show=<?php echo $show->id_show?>">ELIMINAR</a></td>
+                            <td><canvas id="chart_<?php echo $show->id_show; ?>"></canvas>
+    <script>
+        var ctx_<?php echo $show->id_show; ?> = document.getElementById('chart_<?php echo $show->id_show; ?>').getContext('2d');
+        var chart_<?php echo $show->id_show; ?> = new Chart(ctx_<?php echo $show->id_show; ?>, {
+            type: 'bar',
+            data: {
+                labels: ['Ventas'],
+                datasets: [{
+                    label: 'Ventas',
+                    data: [<?php echo getShowSalesCount($show->id_show); ?>],
+                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true, // Hace que el gráfico sea responsive
+                maintainAspectRatio: false, // Evita que el gráfico mantenga su relación de aspecto
+                aspectRatio: 2 // Ajusta la relación de aspecto según tus necesidades
+            }
+        });
+    </script>
+</td>
+
                         </tr>
                     <?php } }?>
                 </tbody>
